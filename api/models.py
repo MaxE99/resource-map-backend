@@ -18,6 +18,7 @@ from django.db.models import (
     IntegerField,
     Model,
     TextField,
+    UniqueConstraint,
 )
 from django.core.exceptions import ValidationError
 
@@ -49,7 +50,7 @@ class Country(Model):
     ease_of_biz = DecimalField(
         blank=True,
         null=True,
-        max_digits=3,
+        max_digits=4,
         decimal_places=1,
         validators=[non_negative_validator],
     )  # ease of doing business index
@@ -82,6 +83,12 @@ class ProductionReservesBase(Model):
     METRIC_CHOICES = [
         ("kg", "Kilograms"),
         ("MT", "Metric Ton"),
+        ("1000 MT", "1000 Metric Tons"),
+        ("1 M. MT", "1 Million Metric Tons"),
+        ("$ M.", "Million Dollars"),
+        ("MCM", "Milion Cubic Meters"),
+        ("Mct", "Million Carats"),
+        ("Kct", "Thousands of Carats"),
     ]
 
     id = AutoField(primary_key=True)
@@ -92,9 +99,9 @@ class ProductionReservesBase(Model):
         blank=True, null=True, max_length=100
     )  # extra note about type of production/reserves
     metric = CharField(max_length=50, choices=METRIC_CHOICES)
-    amount = DecimalField(
-        max_digits=10, decimal_places=2, validators=[non_negative_validator]
-    )
+    amount = CharField(
+        max_length=25
+    )  # Char field needed because of fields like NA, Large, Small, ...
 
     class Meta:
         abstract = True
@@ -114,14 +121,15 @@ class ImportExportBase(Model):
     commodity = ForeignKey(Commodity, on_delete=CASCADE)
     amount = DecimalField(
         validators=[non_negative_validator],
-        max_digits=15,
+        max_digits=25,
         decimal_places=10,
     )
     share = DecimalField(
-        validators=[non_negative_validator], max_digits=3, decimal_places=10
+        validators=[non_negative_validator], max_digits=13, decimal_places=10
     )
 
     class Meta:
+        abstract = True
         indexes = [
             Index(fields=["year", "country", "commodity"]),
         ]
@@ -135,6 +143,14 @@ class Reserves(ProductionReservesBase):
     def __str__(self) -> str:
         return f"Reserves: {self.year} - {self.country} - {self.commodity}"
 
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["year", "country", "commodity"],
+                name="unique_reserves_year_country_commodity",
+            )
+        ]
+
 
 class Production(ProductionReservesBase):
     """
@@ -143,6 +159,14 @@ class Production(ProductionReservesBase):
 
     def __str__(self) -> str:
         return f"Reserves: {self.year} - {self.country} - {self.commodity}"
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["year", "country", "commodity"],
+                name="unique_production_year_country_commodity",
+            )
+        ]
 
 
 class GovInfo(Model):
@@ -159,13 +183,19 @@ class GovInfo(Model):
     world_resources = TextField()
     substitutes = TextField()
 
+    def __str__(self) -> str:
+        return f"{self.year}: {self.commodity}"
+
     class Meta:
         indexes = [
             Index(fields=["year", "commodity"]),
         ]
-
-    def __str__(self) -> str:
-        return f"{self.year}: {self.commodity}"
+        constraints = [
+            UniqueConstraint(
+                fields=["year", "commodity"],
+                name="unique_year_commodity",
+            )
+        ]
 
 
 class ImportData(ImportExportBase):
@@ -176,6 +206,14 @@ class ImportData(ImportExportBase):
     def __str__(self) -> str:
         return f"Import: {self.year} - {self.country} - {self.commodity}"
 
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["year", "country", "commodity"],
+                name="unique_import_year_country_commodity",
+            )
+        ]
+
 
 class ExportData(ImportExportBase):
     """
@@ -184,6 +222,14 @@ class ExportData(ImportExportBase):
 
     def __str__(self) -> str:
         return f"Export: {self.year} - {self.country} - {self.commodity}"
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["year", "country", "commodity"],
+                name="unique_export_year_country_commodity",
+            )
+        ]
 
 
 class CommodityPrice(Model):
@@ -196,17 +242,23 @@ class CommodityPrice(Model):
     date = DateField()
     price = DecimalField(
         validators=[non_negative_validator],
-        max_digits=9,
+        max_digits=13,
         decimal_places=4,
     )
+
+    def __str__(self) -> str:
+        return f"{self.commodity}: {self.date}"
 
     class Meta:
         indexes = [
             Index(fields=["commodity"]),
         ]
-
-    def __str__(self) -> str:
-        return f"{self.commodity}: {self.date}"
+        constraints = [
+            UniqueConstraint(
+                fields=["commodity", "date"],
+                name="unique_commodity_date",
+            )
+        ]
 
 
 # need more information for the following models
