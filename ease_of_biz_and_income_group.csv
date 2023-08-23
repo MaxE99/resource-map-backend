@@ -1,0 +1,217 @@
+Country,BusinessRanking,IncomeGroup
+Aruba,,High income
+Afghanistan,173,Low income
+Angola,177,Lower middle income
+Albania,82,Upper middle income
+Andorra,,High income
+United Arab Emirates,16,High income
+Argentina,126,Upper middle income
+Armenia,47,Upper middle income
+American Samoa,,High income
+Antigua and Barbuda,113,High income
+Australia,14,High income
+Austria,27,High income
+Azerbaijan,28,Upper middle income
+Burundi,166,Low income
+Belgium,46,High income
+Benin,149,Lower middle income
+Burkina Faso,151,Low income
+Bangladesh,168,Lower middle income
+Bulgaria,61,Upper middle income
+Bahrain,43,High income
+Bahamas,119,High income
+Bosnia and Herzegovina,90,Upper middle income
+Belarus,49,Upper middle income
+Belize,135,Upper middle income
+Bermuda,,High income
+Bolivia,150,Lower middle income
+Brazil,124,Upper middle income
+Barbados,128,High income
+Brunei ,66,High income
+Bhutan,89,Lower middle income
+Botswana,87,Upper middle income
+Central African Republic,184,Low income
+Canada,23,High income
+Switzerland,36,High income
+Channel Islands,,High income
+Chile,59,High income
+China,32,Upper middle income
+Ivory Coast,110,Lower middle income
+Cameroon,167,Lower middle income
+Democratic Republic of the Congo,183,Low income
+Congo,180,Lower middle income
+Colombia,67,Upper middle income
+Comoros,160,Lower middle income
+Cabo Verde,137,Lower middle income
+Costa Rica,74,Upper middle income
+Cuba,,Upper middle income
+Curacao,,High income
+Cayman Islands,,High income
+Cyprus,54,High income
+Czechia,41,High income
+Germany,22,High income
+Djibouti,112,Lower middle income
+Dominica,111,Upper middle income
+Denmark,4,High income
+Dominican Republic,115,Upper middle income
+Algeria,157,Lower middle income
+Ecuador,129,Upper middle income
+Egypt,114,Lower middle income
+Eritrea,189,Low income
+Spain,31,High income
+Estonia,18,High income
+Ethiopia,159,Low income
+Finland,20,High income
+Fiji,102,Upper middle income
+France,33,High income
+Faroe Islands,,High income
+Micronesia,158,Lower middle income
+Gabon,169,Upper middle income
+United Kingdom,8,High income
+Georgia,7,Upper middle income
+Ghana,118,Lower middle income
+Gibraltar,,High income
+Guinea,156,Lower middle income
+Gambia,155,Low income
+Guinea-Bissau,174,Low income
+Equatorial Guinea,178,Upper middle income
+Greece,79,High income
+Grenada,146,Upper middle income
+Greenland,,High income
+Guatemala,96,Upper middle income
+Guam,,High income
+Guyana,134,High income
+Hong Kong,3,High income
+Honduras,133,Lower middle income
+Croatia,51,High income
+Haiti,179,Lower middle income
+Hungary,52,High income
+Indonesia,73,Upper middle income
+Isle of Man,,High income
+India,62,Lower middle income
+Ireland,24,High income
+Iran,127,Lower middle income
+Iraq,172,Upper middle income
+Iceland,26,High income
+Israel,35,High income
+Italy,58,High income
+Jamaica,71,Upper middle income
+Jordan,75,Lower middle income
+Japan,30,High income
+Kazakhstan,25,Upper middle income
+Kenya,56,Lower middle income
+Kyrgyzstan,80,Lower middle income
+Cambodia,144,Lower middle income
+Kiribati,164,Lower middle income
+St. Kitts and Nevis,139,High income
+South Korea,5,High income
+Kuwait,83,High income
+Laos,154,Lower middle income
+Lebanon,143,Lower middle income
+Liberia,175,Low income
+Libya,186,Upper middle income
+St. Lucia,93,Upper middle income
+Liechtenstein,,High income
+Sri Lanka,99,Lower middle income
+Lesotho,122,Lower middle income
+Lithuania,11,High income
+Luxembourg,72,High income
+Latvia,19,High income
+Macao,,High income
+St. Martin,,High income
+Morocco,53,Lower middle income
+Monaco,,High income
+Moldova,48,Upper middle income
+Madagascar,161,Low income
+Maldives,147,Upper middle income
+Mexico,60,Upper middle income
+Marshall Islands,153,Upper middle income
+North Macedonia,17,Upper middle income
+Mali,148,Low income
+Malta,88,High income
+Myanmar,165,Lower middle income
+Montenegro,50,Upper middle income
+Mongolia,81,Lower middle income
+Northern Mariana Islands,,High income
+Mozambique,138,Low income
+Mauritania,152,Lower middle income
+Mauritius,13,Upper middle income
+Malawi,109,Low income
+Malaysia,12,Upper middle income
+Namibia,104,Upper middle income
+New Caledonia,,High income
+Niger,132,Low income
+Nigeria,131,Lower middle income
+Nicaragua,142,Lower middle income
+Netherlands,42,High income
+Norway,9,High income
+Nepal,94,Lower middle income
+Nauru,,High income
+New Zealand,1,High income
+Oman,68,High income
+Pakistan,108,Lower middle income
+Panama,86,High income
+Peru,76,Upper middle income
+Philippines,95,Lower middle income
+Palau,145,Upper middle income
+Papua New Guinea,120,Lower middle income
+Poland,40,High income
+Puerto Rico,65,High income
+North Korea,,Low income
+Portugal,39,High income
+Paraguay,125,Upper middle income
+West Bank and Gaza,117,Upper middle income
+French Polynesia,,High income
+Qatar,77,High income
+Romania,55,High income
+Russia,29,Upper middle income
+Rwanda,38,Low income
+Saudi Arabia,63,High income
+Sudan,171,Low income
+Senegal,123,Lower middle income
+Singapore,2,High income
+Solomon Islands,136,Lower middle income
+Sierra Leone,163,Low income
+El Salvador,91,Upper middle income
+San Marino,92,High income
+Somalia,190,Low income
+Serbia,44,Upper middle income
+South Sudan,185,Low income
+Sao Tome and Principe,170,Lower middle income
+Suriname,162,Upper middle income
+Slovakia,45,High income
+Slovenia,37,High income
+Sweden,10,High income
+Eswatini,121,Lower middle income
+Sint Maarten,,High income
+Seychelles,100,High income
+Syria,176,Low income
+Turks and Caicos Islands,,High income
+Chad,182,Low income
+Togo,97,Low income
+Thailand,21,Upper middle income
+Tajikistan,106,Lower middle income
+Turkmenistan,,Upper middle income
+Timor-Leste,181,Lower middle income
+Tonga,103,Upper middle income
+Trinidad and Tobago,105,High income
+Tunisia,78,Lower middle income
+Turkey,34,Upper middle income
+Tuvalu,,Upper middle income
+Tanzania,141,Lower middle income
+Uganda,116,Low income
+Ukraine,64,Lower middle income
+Uruguay,101,High income
+United States,6,High income
+Uzbekistan,69,Lower middle income
+St. Vincent and the Grenadines,130,Upper middle income
+Venezuela,188,High income
+Virgin Islands,,High income
+Vietnam,70,Lower middle income
+Vanuatu,107,Lower middle income
+Samoa,98,Lower middle income
+Kosovo,57,Upper middle income
+Yemen,187,Low income
+South Africa,84,Upper middle income
+Zambia,85,Lower middle income
+Zimbabwe,140,Lower middle income

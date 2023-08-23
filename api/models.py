@@ -42,6 +42,13 @@ class Country(Model):
     A model representing a country.
     """
 
+    INCOME_CHOICES = [
+        ("High income", "High income"),
+        ("Upper middle income", "Upper middle income"),
+        ("Lower middle income", "Lower middle income"),
+        ("Low income", "Low income"),
+    ]
+
     id = AutoField(primary_key=True)
     name = CharField(unique=True, max_length=100)
     flag_path = CharField(
@@ -54,6 +61,9 @@ class Country(Model):
         decimal_places=1,
         validators=[non_negative_validator],
     )  # ease of doing business index
+    income_group = CharField(
+        blank=True, null=True, max_length=50, choices=INCOME_CHOICES
+    )
     gdp = BigIntegerField(blank=True, null=True, validators=[non_negative_validator])
 
     class Meta:
