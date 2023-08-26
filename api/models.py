@@ -249,6 +249,7 @@ class CommodityPrice(Model):
 
     id = AutoField(primary_key=True)
     commodity = ForeignKey(Commodity, on_delete=CASCADE)
+    description = TextField(max_length=200, null=True, blank=True)
     date = DateField()
     price = DecimalField(
         validators=[non_negative_validator],
