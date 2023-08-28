@@ -10,6 +10,7 @@ from api.api import (
     ImportDataViewSet,
     ExportDataViewSet,
     CommodityPriceViewSet,
+    GeoJSONView,
 )
 
 
@@ -27,4 +28,5 @@ router.register("prices", CommodityPriceViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("geojson", GeoJSONView.as_view(), name="geojson"),
 ]

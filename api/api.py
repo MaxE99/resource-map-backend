@@ -1,4 +1,8 @@
+import json
+
 from rest_framework.viewsets import ModelViewSet
+from django.http import JsonResponse
+from django.views import View
 
 from api.serializers import (
     CountrySerializer,
@@ -97,3 +101,11 @@ class CommodityPriceViewSet(BaseFilterViewSet):
     queryset = CommodityPrice.objects.all()
     serializer_class = CommodityPriceSerializer
     filter_param_mapping = {"commodity": "commodity__name"}
+
+
+class GeoJSONView(View):
+    def get(self, request, *args, **kwargs):
+        with open("countries.geojson", "r") as geojson_file:
+            geojson_data = json.load(geojson_file)
+
+        return JsonResponse(geojson_data)
