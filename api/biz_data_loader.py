@@ -1,10 +1,10 @@
 # source for flags: # https://github.com/hampusborgos/country-flags/tree/main
 
 from datetime import datetime
+import ast
 
-
-from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
 import pandas as pd
 
 from api.models import Country, Commodity, CommodityPrice
@@ -72,8 +72,29 @@ class BizDataLoader:
                             price=prices[i],
                         )
 
+    @staticmethod
+    def add_commodity_images():
+        for commodity in Commodity.objects.all():
+            commodity.img_path = f"commodity_imgs/{slugify(commodity.name)}"
+            commodity.save()
+
+    @staticmethod
+    def add_commodity_info_and_companies():
+        with open("commodity_data.csv", "r", newline="") as csv_file:
+            data_frame = pd.read_csv(csv_file)
+            commodity_column = data_frame["Commodity"].tolist()
+            info_column = data_frame["Info"].tolist()
+            companies_column = data_frame["Companies"].tolist()
+            for i in range(len(commodity_column)):
+                commodity = get_object_or_404(Commodity, name=commodity_column[i])
+                commodity.info = info_column[i]
+                commodity.companies = ast.literal_eval(companies_column[i])
+                commodity.save()
+
 
 if __name__ == "__main__":
     loader = BizDataLoader()
     loader.add_country_data()
     loader.add_price_data()
+    loader.add_commodity_images()
+    loader.add_commodity_info_and_companies()

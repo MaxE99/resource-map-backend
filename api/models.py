@@ -20,6 +20,7 @@ from django.db.models import (
     TextField,
     UniqueConstraint,
 )
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 
 
@@ -80,6 +81,9 @@ class Commodity(Model):
 
     id = AutoField(primary_key=True)
     name = CharField(unique=True, max_length=100)
+    info = TextField(blank=True, null=True)
+    img_path = CharField(max_length=500, blank=True, null=True)
+    companies = ArrayField(CharField(max_length=75), size=10, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name

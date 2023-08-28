@@ -81,7 +81,7 @@ if DEBUG:
             "NAME": "testdb_2",
             "USER": "postgres",
             "PASSWORD": "post123gres",
-            "HOST": "db",
+            "HOST": "localhost",
             "PORT": "5432",
         }
     }
