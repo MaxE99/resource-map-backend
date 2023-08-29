@@ -1,5 +1,4 @@
 from rest_framework.serializers import ModelSerializer
-
 from api.models import (
     Country,
     Commodity,
@@ -20,41 +19,21 @@ class ReadOnlyModelSerializer(ModelSerializer):
         return fields
 
 
-class CountrySerializer(ReadOnlyModelSerializer):
+def create_read_only_serializer(model_class):
     class Meta:
-        model = Country
+        model = model_class
+        fields = "__all__"
+
+    return type(
+        f"{model_class.__name__}Serializer", (ReadOnlyModelSerializer,), {"Meta": Meta}
+    )
 
 
-class CommoditySerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = Commodity
-
-
-class ProductionSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = Production
-
-
-class ReservesSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = Reserves
-
-
-class GovInfoSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = GovInfo
-
-
-class ImportDataSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = ImportData
-
-
-class ExportDataSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = ExportData
-
-
-class CommodityPriceSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = CommodityPrice
+CountrySerializer = create_read_only_serializer(Country)
+CommoditySerializer = create_read_only_serializer(Commodity)
+ProductionSerializer = create_read_only_serializer(Production)
+ReservesSerializer = create_read_only_serializer(Reserves)
+GovInfoSerializer = create_read_only_serializer(GovInfo)
+ImportDataSerializer = create_read_only_serializer(ImportData)
+ExportDataSerializer = create_read_only_serializer(ExportData)
+CommodityPriceSerializer = create_read_only_serializer(CommodityPrice)
