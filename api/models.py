@@ -16,6 +16,7 @@ from django.db.models import (
     ForeignKey,
     Index,
     IntegerField,
+    JSONField,
     Model,
     TextField,
     UniqueConstraint,
@@ -66,6 +67,7 @@ class Country(Model):
         blank=True, null=True, max_length=50, choices=INCOME_CHOICES
     )
     gdp = BigIntegerField(blank=True, null=True, validators=[non_negative_validator])
+    geojson = JSONField(null=True, blank=True)
 
     class Meta:
         ordering = ["name"]
