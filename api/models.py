@@ -91,6 +91,34 @@ class Commodity(Model):
         return self.name
 
 
+class HarvardCountry(Model):
+    """
+    Model representing a country from the harvard csvs
+    """
+
+    id = AutoField(primary_key=True)
+    name = CharField(unique=True, max_length=100)
+
+
+class HarvardCommodity(Model):
+    """
+    Model representing a commodity from the harvard csvs
+    """
+
+    id = AutoField(primary_key=True)
+    name = CharField(unique=True, max_length=100)
+
+
+class CountryMapping(Model):
+    harvard_id = ForeignKey(HarvardCountry, unique=True, on_delete=CASCADE)
+    country_id = ForeignKey(Country, on_delete=CASCADE)
+
+
+class CommodityMapping(Model):
+    harvard_id = ForeignKey(HarvardCommodity, unique=True, on_delete=CASCADE)
+    commodity_id = ForeignKey(Commodity, on_delete=CASCADE)
+
+
 class ProductionReservesBase(Model):
     """
     Abstract base model for production and reserves data.
@@ -133,8 +161,8 @@ class ImportExportBase(Model):
 
     id = AutoField(primary_key=True)
     year = IntegerField()
-    country = ForeignKey(Country, on_delete=CASCADE)
-    commodity = ForeignKey(Commodity, on_delete=CASCADE)
+    country = ForeignKey(HarvardCountry, on_delete=CASCADE)
+    commodity = ForeignKey(HarvardCommodity, on_delete=CASCADE)
     amount = DecimalField(
         validators=[non_negative_validator],
         max_digits=25,
