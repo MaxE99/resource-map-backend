@@ -96,7 +96,8 @@ class HarvardCountry(Model):
     Model representing a country from the harvard csvs
     """
 
-    id = AutoField(primary_key=True)
+    harvard_id = AutoField(primary_key=True)
+    country_id = ForeignKey(Country, on_delete=CASCADE)
     name = CharField(unique=True, max_length=100)
 
 
@@ -105,18 +106,9 @@ class HarvardCommodity(Model):
     Model representing a commodity from the harvard csvs
     """
 
-    id = AutoField(primary_key=True)
-    name = CharField(unique=True, max_length=100)
-
-
-class CountryMapping(Model):
-    harvard_id = ForeignKey(HarvardCountry, unique=True, on_delete=CASCADE)
-    country_id = ForeignKey(Country, on_delete=CASCADE)
-
-
-class CommodityMapping(Model):
-    harvard_id = ForeignKey(HarvardCommodity, unique=True, on_delete=CASCADE)
+    harvard_id = AutoField(primary_key=True)
     commodity_id = ForeignKey(Commodity, on_delete=CASCADE)
+    name = CharField(unique=True, max_length=100)
 
 
 class ProductionReservesBase(Model):
