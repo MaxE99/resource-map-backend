@@ -174,7 +174,7 @@ class Production(ProductionReservesBase):
     """
 
     def __str__(self) -> str:
-        return f"Reserves: {self.year} - {self.country} - {self.commodity}"
+        return f"Production: {self.year} - {self.country} - {self.commodity}"
 
     class Meta:
         constraints = [
