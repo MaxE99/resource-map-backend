@@ -31,7 +31,7 @@ SECRET_KEY = "django-insecure-#y3=@s6r@47!0l)tpti8be49fbwuu$9-p$l@=f$hr*&r9g=by3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -106,6 +106,10 @@ else:
             "PASSWORD": os.environ.get("DB_PASS"),
             "HOST": os.environ.get("DB_HOST"),
             "PORT": "5432",
+
+            "OPTIONS": {
+                "sslmode": "require",
+            },
         }
     }
 
