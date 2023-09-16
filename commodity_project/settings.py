@@ -82,36 +82,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "commodity_project.wsgi.application"
 
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "testdb_2",
-            "USER": "postgres",
-            "PASSWORD": "post123gres",
-            "HOST": "localhost",
-            "PORT": "5432",
-        }
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.environ.get("DB_NAME"),
-            "USER": os.environ.get("DB_USER"),
-            "PASSWORD": os.environ.get("DB_PASS"),
-            "HOST": os.environ.get("DB_HOST"),
-            "PORT": "5432",
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASS"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": "5432",
 
-            "OPTIONS": {
-                "sslmode": "require",
-            },
-        }
+        "OPTIONS": {
+            "sslmode": "require",
+        },
     }
+}
 
 
 # Password validation

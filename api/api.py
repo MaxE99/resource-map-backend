@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
 
@@ -43,11 +44,14 @@ class BaseImportExportViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        paramCount = 0
         year = self.request.query_params.get("year")
         if year:
+            paramCount += 1
             queryset = queryset.filter(year=year)
         country = self.request.query_params.get("country")
         if country:
+            paramCount += 1
             country = get_object_or_404(Country, name=country)
             tmp = HarvardCountry.objects.none()
             harvardCountries = HarvardCountry.objects.filter(country_id=country)
@@ -56,12 +60,15 @@ class BaseImportExportViewSet(ModelViewSet):
             queryset = tmp
         commodity = self.request.query_params.get("commodity")
         if commodity:
+            paramCount += 1
             commodity = get_object_or_404(Commodity, name=commodity)
             tmp = HarvardCommodity.objects.none()
             harvardCommodities = HarvardCommodity.objects.filter(commodity_id=commodity)
             for harvardCommodity in harvardCommodities:
                 tmp = tmp | queryset.filter(commodity=harvardCommodity)
             queryset = tmp
+        if paramCount < 2:
+            raise ValidationError("at least two parameters must be passed")
         return queryset
 
 
