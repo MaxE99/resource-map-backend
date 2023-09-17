@@ -41,34 +41,35 @@ class BaseFilterViewSet(ModelViewSet):
 
 
 class BaseImportExportViewSet(ModelViewSet):
-
     def get_queryset(self):
         queryset = super().get_queryset()
-        paramCount = 0
-        year = self.request.query_params.get("year")
-        if year:
-            paramCount += 1
-            queryset = queryset.filter(year=year)
-        country = self.request.query_params.get("country")
-        if country:
-            paramCount += 1
-            country = get_object_or_404(Country, name=country)
-            tmp = HarvardCountry.objects.none()
-            harvardCountries = HarvardCountry.objects.filter(country_id=country)
-            for harvardCountry in harvardCountries:
-                tmp = tmp | queryset.filter(country=harvardCountry)
-            queryset = tmp
-        commodity = self.request.query_params.get("commodity")
-        if commodity:
-            paramCount += 1
-            commodity = get_object_or_404(Commodity, name=commodity)
-            tmp = HarvardCommodity.objects.none()
-            harvardCommodities = HarvardCommodity.objects.filter(commodity_id=commodity)
-            for harvardCommodity in harvardCommodities:
-                tmp = tmp | queryset.filter(commodity=harvardCommodity)
-            queryset = tmp
-        if paramCount < 2:
-            raise ValidationError("at least two parameters must be passed")
+
+        params = {
+            "year": self.request.query_params.get("year"),
+            "country": self.request.query_params.get("country"),
+            "commodity": self.request.query_params.get("commodity"),
+        }
+
+        param_count = sum(1 for param in params.values() if param)
+
+        if param_count < 2:
+            raise ValidationError("At least two parameters must be passed")
+
+        if params["year"]:
+            queryset = queryset.filter(year=params["year"])
+
+        if params["country"]:
+            country = get_object_or_404(Country, name=params["country"])
+            harvard_countries = HarvardCountry.objects.filter(country_id=country)
+            queryset = queryset.filter(country__in=harvard_countries)
+
+        if params["commodity"]:
+            commodity = get_object_or_404(Commodity, name=params["commodity"])
+            harvard_commodities = HarvardCommodity.objects.filter(
+                commodity_id=commodity
+            )
+            queryset = queryset.filter(commodity__in=harvard_commodities)
+
         return queryset
 
 
