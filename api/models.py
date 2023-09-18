@@ -298,6 +298,43 @@ class CommodityPrice(Model):
         ]
 
 
+class ImportExportBalance(Model):
+    id = AutoField(primary_key=True)
+    year = IntegerField()
+    country = ForeignKey(Country, on_delete=CASCADE)
+    total_imports = DecimalField(
+        validators=[non_negative_validator],
+        max_digits=30,
+        decimal_places=10,
+    )
+    total_exports = DecimalField(
+        validators=[non_negative_validator],
+        max_digits=30,
+        decimal_places=10,
+    )
+    total_commodity_imports = DecimalField(
+        validators=[non_negative_validator],
+        max_digits=30,
+        decimal_places=10,
+    )
+    total_commodity_exports = DecimalField(
+        validators=[non_negative_validator],
+        max_digits=30,
+        decimal_places=10,
+    )
+
+    def __str__(self) -> str:
+        return f"ImportExportBalance: {self.year} - {self.country}"
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["year", "country"],
+                name="unique_year_country_balance",
+            )
+        ]
+
+
 # need more information for the following models
 #   1.Climate
 #   2.Companies
