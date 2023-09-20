@@ -138,6 +138,17 @@ class ProductionReservesBase(Model):
     amount = CharField(
         max_length=25
     )  # Char field needed because of fields like NA, Large, Small, ...
+    rank = IntegerField(
+        null=True,
+        blank=True,
+    )
+    share = DecimalField(
+        validators=[non_negative_validator],
+        max_digits=13,
+        decimal_places=10,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         abstract = True
@@ -161,7 +172,9 @@ class ImportExportBase(Model):
         decimal_places=10,
     )
     share = DecimalField(
-        validators=[non_negative_validator], max_digits=13, decimal_places=10
+        validators=[non_negative_validator],
+        max_digits=13,
+        decimal_places=10,
     )
 
     class Meta:
