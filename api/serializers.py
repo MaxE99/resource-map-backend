@@ -29,15 +29,7 @@ def create_read_only_serializer(model_class):
     )
 
 
-CountrySerializer = create_read_only_serializer(Country)
-CommoditySerializer = create_read_only_serializer(Commodity)
-GovInfoSerializer = create_read_only_serializer(GovInfo)
-ImportDataSerializer = create_read_only_serializer(ImportData)
-ExportDataSerializer = create_read_only_serializer(ExportData)
-CommodityPriceSerializer = create_read_only_serializer(CommodityPrice)
-
-
-class BaseProductionReservesSerializer(ModelSerializer):
+class BaseProductionReservesSerializer(ReadOnlyModelSerializer):
     country_name = CharField(source="country.name")
     commodity_name = CharField(source="commodity.name")
 
@@ -55,6 +47,31 @@ class BaseProductionReservesSerializer(ModelSerializer):
         ]
 
 
+class ImportExportSerializer(ReadOnlyModelSerializer):
+    country_name = CharField(source="country.name")
+    commodity_name = CharField(source="commodity.name")
+
+    class Meta:
+        fields = [
+            "id",
+            "year",
+            "amount",
+            "share",
+            "country_name",
+            "commodity_name",
+        ]
+
+
+class ImportDataSerializer(ImportExportSerializer):
+    class Meta(ImportExportSerializer.Meta):
+        model = ImportData
+
+
+class ExportDataSerializer(ImportExportSerializer):
+    class Meta(ImportExportSerializer.Meta):
+        model = ExportData
+
+
 class ProductionSerializer(BaseProductionReservesSerializer):
     class Meta(BaseProductionReservesSerializer.Meta):
         model = Production
@@ -63,3 +80,9 @@ class ProductionSerializer(BaseProductionReservesSerializer):
 class ReservesSerializer(BaseProductionReservesSerializer):
     class Meta(BaseProductionReservesSerializer.Meta):
         model = Reserves
+
+
+CountrySerializer = create_read_only_serializer(Country)
+CommoditySerializer = create_read_only_serializer(Commodity)
+GovInfoSerializer = create_read_only_serializer(GovInfo)
+CommodityPriceSerializer = create_read_only_serializer(CommodityPrice)
