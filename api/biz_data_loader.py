@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 import pandas as pd
 
-from api.models import Country, Commodity, CommodityPrice
+from api.models import Country, Commodity, CommodityPrice, Production, Reserves
 
 
 class BizDataLoader:
@@ -91,6 +91,84 @@ class BizDataLoader:
                 commodity.companies = ast.literal_eval(companies_column[i])
                 commodity.save()
 
+    @staticmethod
+    def add_share_and_rank():
+        for prod in Production.objects.exclude(
+            country__name__in=["Other countries", "World total"]
+        ):
+            world_total = Production.objects.filter(
+                country__name="World total", year=prod.year, commodity=prod.commodity
+            ).first()
+
+            if (
+                prod.amount.replace(".", "").isdigit()
+                and float(prod.amount) != 0
+                and float(prod.amount) != "nan"
+            ):
+                country_rank = 1
+                for country in Production.objects.filter(
+                    year=prod.year, commodity=prod.commodity
+                ).exclude(country__name__in=["Other countries", "World total"]):
+                    try:
+                        if float(country.amount) > float(prod.amount):
+                            country_rank += 1
+                    except Exception:
+                        continue
+                prod.rank = country_rank
+                prod.save()
+
+                try:
+                    prod.share = (float(prod.amount) / float(world_total.amount)) * 100
+                    if prod.share != "nan":
+                        prod.save()
+                except Exception:
+                    pass
+
+            else:
+                prod.rank = None
+                prod.share = None
+                prod.save()
+
+        for reserve in Reserves.objects.exclude(
+            country__name__in=["Other countries", "World total"]
+        ):
+            world_total = Reserves.objects.filter(
+                country__name="World total",
+                year=reserve.year,
+                commodity=reserve.commodity,
+            ).first()
+
+            if (
+                reserve.amount.replace(".", "").isdigit()
+                and float(reserve.amount) != 0
+                and float(reserve.amount) != "nan"
+            ):
+                country_rank = 1
+                for country in Reserves.objects.filter(
+                    year=reserve.year, commodity=reserve.commodity
+                ).exclude(country__name__in=["Other countries", "World total"]):
+                    try:
+                        if float(country.amount) > float(reserve.amount):
+                            country_rank += 1
+                    except Exception:
+                        continue
+                reserve.rank = country_rank
+                reserve.save()
+
+                try:
+                    reserve.share = (
+                        float(reserve.amount) / float(reserve.amount)
+                    ) * 100
+                    if reserve.share != "nan":
+                        reserve.save()
+                except Exception:
+                    pass
+
+            else:
+                reserve.rank = None
+                reserve.share = None
+                reserve.save()
+
 
 if __name__ == "__main__":
     loader = BizDataLoader()
@@ -98,3 +176,4 @@ if __name__ == "__main__":
     loader.add_price_data()
     loader.add_commodity_images()
     loader.add_commodity_info_and_companies()
+    loader.add_share_and_rank()
