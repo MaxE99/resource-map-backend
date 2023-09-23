@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, CharField
 from api.models import (
     Country,
     Commodity,
@@ -31,31 +31,35 @@ def create_read_only_serializer(model_class):
 
 CountrySerializer = create_read_only_serializer(Country)
 CommoditySerializer = create_read_only_serializer(Commodity)
-# ProductionSerializer = create_read_only_serializer(Production)
-# ReservesSerializer = create_read_only_serializer(Reserves)
 GovInfoSerializer = create_read_only_serializer(GovInfo)
 ImportDataSerializer = create_read_only_serializer(ImportData)
 ExportDataSerializer = create_read_only_serializer(ExportData)
 CommodityPriceSerializer = create_read_only_serializer(CommodityPrice)
 
 
-class ProductionSerializer(ReadOnlyModelSerializer):
-    country_name = SerializerMethodField()
+class BaseProductionReservesSerializer(ModelSerializer):
+    country_name = CharField(source="country.name")
+    commodity_name = CharField(source="commodity.name")
 
     class Meta:
+        fields = [
+            "id",
+            "year",
+            "country_name",
+            "note",
+            "metric",
+            "amount",
+            "commodity_name",
+            "share",
+            "rank",
+        ]
+
+
+class ProductionSerializer(BaseProductionReservesSerializer):
+    class Meta(BaseProductionReservesSerializer.Meta):
         model = Production
-        fields = ["id", "year", "country_name", "note", "metric", "amount"]
-
-    def get_country_name(self, obj):
-        return obj.country.name
 
 
-class ReservesSerializer(ReadOnlyModelSerializer):
-    country_name = SerializerMethodField()
-
-    class Meta:
+class ReservesSerializer(BaseProductionReservesSerializer):
+    class Meta(BaseProductionReservesSerializer.Meta):
         model = Reserves
-        fields = ["id", "year", "country_name", "note", "metric", "amount"]
-
-    def get_country_name(self, obj):
-        return obj.country.name
