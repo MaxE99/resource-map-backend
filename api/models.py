@@ -312,6 +312,10 @@ class CommodityPrice(Model):
 
 
 class ImportExportBalance(Model):
+    """
+    Model representing data related to the import/export balance of a country.
+    """
+
     id = AutoField(primary_key=True)
     year = IntegerField()
     country = ForeignKey(Country, on_delete=CASCADE)

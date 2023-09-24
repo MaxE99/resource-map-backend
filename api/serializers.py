@@ -8,6 +8,7 @@ from api.models import (
     ImportData,
     ExportData,
     CommodityPrice,
+    ImportExportBalance,
 )
 
 
@@ -59,6 +60,22 @@ class ImportExportSerializer(ReadOnlyModelSerializer):
             "share",
             "country_name",
             "commodity_name",
+        ]
+
+
+class ImportExportBalanceSerializer(ReadOnlyModelSerializer):
+    country_name = CharField(source="country.name")
+
+    class Meta:
+        model = ImportExportBalance
+        fields = [
+            "id",
+            "year",
+            "country_name",
+            "total_imports",
+            "total_exports",
+            "total_commodity_imports",
+            "total_commodity_exports",
         ]
 
 

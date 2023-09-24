@@ -12,6 +12,7 @@ from api.serializers import (
     ImportDataSerializer,
     ExportDataSerializer,
     CommodityPriceSerializer,
+    ImportExportBalanceSerializer,
 )
 
 from api.models import (
@@ -25,6 +26,7 @@ from api.models import (
     ImportData,
     ExportData,
     CommodityPrice,
+    ImportExportBalance,
 )
 
 
@@ -125,3 +127,9 @@ class CommodityPriceViewSet(BaseFilterViewSet):
     queryset = CommodityPrice.objects.all()
     serializer_class = CommodityPriceSerializer
     filter_param_mapping = {"commodity": "commodity__name"}
+
+
+class ImportExportBalanceViewset(BaseFilterViewSet):
+    queryset = ImportExportBalance.objects.all()
+    serializer_class = ImportExportBalanceSerializer
+    filter_param_mapping = {"country": "country__name"}

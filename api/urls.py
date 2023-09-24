@@ -10,6 +10,7 @@ from api.api import (
     ImportDataViewSet,
     ExportDataViewSet,
     CommodityPriceViewSet,
+    ImportExportBalanceViewset,
 )
 
 
@@ -24,6 +25,7 @@ router.register("gov_info", GovInfoViewSet)
 router.register("imports", ImportDataViewSet)
 router.register("exports", ExportDataViewSet)
 router.register("prices", CommodityPriceViewSet)
+router.register("balance", ImportExportBalanceViewset)
 
 urlpatterns = [
     path("", include(router.urls)),
