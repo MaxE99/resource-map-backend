@@ -28,6 +28,10 @@ class BizDataLoader:
 
     @staticmethod
     def add_country_data():
+        for country in Country.objects.all():
+            if country.flag_path is None:
+                country.flag_path = f"flags/{slugify(country.name)}"
+                country.save()
         filename = "ease_of_biz_and_income_group.csv"
         with open(filename, "r", newline="") as csv_file:
             data_frame = pd.read_csv(csv_file)
@@ -37,10 +41,9 @@ class BizDataLoader:
             for i in range(len(countries)):
                 country = Country.objects.filter(name=countries[i].rstrip()).first()
                 if country:
-                    country.flag_path = f"flags/{slugify(country.name)}"
+                    country.income_group = income_group[i]
                     if str(business_ranking[i]) != "nan":
                         country.ease_of_biz = business_ranking[i]
-                    country.income_group = income_group[i]
                     country.save()
 
     @staticmethod
