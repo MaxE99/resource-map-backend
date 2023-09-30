@@ -132,4 +132,4 @@ class CommodityPriceViewSet(BaseFilterViewSet):
 class ImportExportBalanceViewset(BaseFilterViewSet):
     queryset = ImportExportBalance.objects.all()
     serializer_class = ImportExportBalanceSerializer
-    filter_param_mapping = {"country": "country__name"}
+    filter_param_mapping = {"country": "country__name", "year": "year"}
