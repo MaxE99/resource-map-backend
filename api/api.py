@@ -133,3 +133,14 @@ class ImportExportBalanceViewset(BaseFilterViewSet):
     queryset = ImportExportBalance.objects.all()
     serializer_class = ImportExportBalanceSerializer
     filter_param_mapping = {"country": "country__name", "year": "year"}
+
+
+class ResourceStronghold(ModelViewSet):
+    queryset = Production.objects.all()
+    serializer_class = ProductionSerializer
+
+    def get_queryset(self):
+        year = self.request.query_params.get("year")
+        queryset = super().get_queryset()
+        queryset = queryset.filter(year=year, share__gt=33)
+        return queryset

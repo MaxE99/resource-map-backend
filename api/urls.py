@@ -11,6 +11,7 @@ from api.api import (
     ExportDataViewSet,
     CommodityPriceViewSet,
     ImportExportBalanceViewset,
+    ResourceStronghold,
 )
 
 
@@ -26,6 +27,7 @@ router.register("imports", ImportDataViewSet)
 router.register("exports", ExportDataViewSet)
 router.register("prices", CommodityPriceViewSet)
 router.register("balance", ImportExportBalanceViewset)
+router.register("stronghold", ResourceStronghold)
 
 urlpatterns = [
     path("", include(router.urls)),
