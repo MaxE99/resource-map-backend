@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
-
+from django.db.models import Q
 
 from api.serializers import (
     CountrySerializer,
@@ -39,6 +39,10 @@ class BaseFilterViewSet(ModelViewSet):
             value = self.request.query_params.get(param)
             if value:
                 queryset = queryset.filter(**{field: value})
+        if "country" in self.filter_param_mapping.keys():
+            queryset = queryset.select_related("country")
+        if "commodity" in self.filter_param_mapping.keys():
+            queryset = queryset.select_related("commodity")
         return queryset
 
 
@@ -63,14 +67,20 @@ class BaseImportExportViewSet(ModelViewSet):
         if params["country"]:
             country = get_object_or_404(Country, name=params["country"])
             harvard_countries = HarvardCountry.objects.filter(country_id=country)
-            queryset = queryset.filter(country__in=harvard_countries)
+            queryset = queryset.filter(
+                Q(country__in=harvard_countries) | Q(country__isnull=True)
+            )
 
         if params["commodity"]:
             commodity = get_object_or_404(Commodity, name=params["commodity"])
             harvard_commodities = HarvardCommodity.objects.filter(
                 commodity_id=commodity
             )
-            queryset = queryset.filter(commodity__in=harvard_commodities)
+            queryset = queryset.filter(
+                Q(commodity__in=harvard_commodities) | Q(commodity__isnull=True)
+            )
+
+        queryset = queryset.select_related("country", "commodity")
 
         return queryset
 
@@ -143,4 +153,5 @@ class ResourceStronghold(ModelViewSet):
         year = self.request.query_params.get("year")
         queryset = super().get_queryset()
         queryset = queryset.filter(year=year, share__gt=33)
+        queryset = queryset.select_related("country", "commodity")
         return queryset
