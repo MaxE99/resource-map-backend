@@ -160,7 +160,7 @@ class BizDataLoader:
 
                 try:
                     reserve.share = (
-                        float(reserve.amount) / float(reserve.amount)
+                        float(reserve.amount) / float(world_total.amount)
                     ) * 100
                     if reserve.share != "nan":
                         reserve.save()
