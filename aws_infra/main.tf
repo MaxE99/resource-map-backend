@@ -1,8 +1,9 @@
 module "backend" {
-  source       = "./modules/backend"
-  project      = var.project
-  api_domain   = var.api_domain
-  dynamodb_arn = module.database.dynamodb_arn
+  source              = "./modules/backend"
+  project             = var.project
+  api_domain          = var.api_domain
+  acm_certificate_arn = module.domain.backend_acm_certificate_arn
+  dynamodb_arn        = module.database.dynamodb_arn
 }
 
 module "database" {
@@ -25,5 +26,5 @@ module "frontend" {
   source              = "./modules/frontend"
   project             = var.project
   domain              = var.domain
-  acm_certificate_arn = module.domain.acm_certificate_arn
+  acm_certificate_arn = module.domain.frontend_acm_certificate_arn
 }

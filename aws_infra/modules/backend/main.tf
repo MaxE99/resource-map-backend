@@ -71,7 +71,7 @@ resource "aws_iam_policy" "dynamodb_lambda_policy" {
         "Resource" : [
           var.dynamodb_arn,
           "${var.dynamodb_arn}/index/*"
-        ]      
+        ]
       }
     ]
   })
@@ -177,6 +177,59 @@ resource "aws_api_gateway_rest_api" "main" {
   tags = {
     Project = var.project
     Name    = "Main API Gateway"
+  }
+}
+
+resource "aws_cloudfront_distribution" "api_gateway" {
+  enabled = true
+
+  origin {
+    domain_name = var.api_domain
+    origin_id   = "api-gateway-origin"
+    custom_origin_config {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "https-only"
+        origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id = "api-gateway-origin"
+
+    forwarded_values {
+      query_string = true
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 3600
+    default_ttl            = 86400
+    max_ttl                = 604800
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn            = var.acm_certificate_arn
+    ssl_support_method             = "sni-only"
+    cloudfront_default_certificate = true
+  }
+
+  price_class = "PriceClass_100"
+
+  tags = {
+    Project = var.project
+    Name    = "APIGateway Cloudfront Distribution"
   }
 }
 
