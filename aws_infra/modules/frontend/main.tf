@@ -74,8 +74,8 @@ resource "aws_cloudfront_distribution" "main" {
 
   default_cache_behavior {
     target_origin_id = "${local.bucket_name}-origin"
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
 
     forwarded_values {
       query_string = true
@@ -86,9 +86,9 @@ resource "aws_cloudfront_distribution" "main" {
     }
 
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    min_ttl                = 3600
+    default_ttl            = 86400
+    max_ttl                = 604800
   }
 
   custom_error_response {
@@ -195,64 +195,55 @@ resource "aws_s3_bucket_policy" "media" {
   })
 }
 
-# resource "aws_cloudfront_origin_access_identity" "images" {
-#   comment = "image-bucket"
-# }
+resource "aws_cloudfront_origin_access_identity" "media" {
+  comment = "media-bucket"
+}
 
-# resource "aws_cloudfront_distribution" "image_cdn" {
-#   enabled             = true
+resource "aws_cloudfront_distribution" "media" {
+  enabled             = true
 
-#   origin {
-#     origin_id   = "${local.bucket_name}-origin"
-#     domain_name = aws_s3_bucket.images.bucket_regional_domain_name
+  origin {
+    origin_id   = "${var.project}-media-origin"
+    domain_name = aws_s3_bucket.media.bucket_regional_domain_name
 
-#     s3_origin_config {
-#       origin_access_identity = aws_cloudfront_origin_access_identity.images.cloudfront_access_identity_path
-#     }
-#   }
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.media.cloudfront_access_identity_path
+    }
+  }
 
-#   default_cache_behavior {
-#     target_origin_id = "${local.bucket_name}-origin"
-#     allowed_methods  = ["GET", "HEAD"]
-#     cached_methods   = ["GET", "HEAD"]
+  default_cache_behavior {
+    target_origin_id = "${var.project}-media-origin"
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
 
-#     forwarded_values {
-#       query_string = true
+    forwarded_values {
+      query_string = true
 
-#       cookies {
-#         forward = "none"
-#       }
-#     }
+      cookies {
+        forward = "none"
+      }
+    }
 
-#     viewer_protocol_policy = "redirect-to-https"
-#     min_ttl                = 0
-#     default_ttl            = 3600
-#     max_ttl                = 86400
-#   }
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 3600
+    default_ttl            = 86400
+    max_ttl                = 604800
+  }
 
-#   custom_error_response {
-#     error_code            = 404
-#     response_code         = 200
-#     response_page_path    = "/index.html"
-#     error_caching_min_ttl = 5
-#   }
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
 
-#   restrictions {
-#     geo_restriction {
-#       restriction_type = "none"
-#     }
-#   }
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
 
-#   viewer_certificate {
-#     acm_certificate_arn            = var.acm_certificate_arn
-#     ssl_support_method             = "sni-only"
-#     cloudfront_default_certificate = true
-#   }
+  price_class = "PriceClass_100"
 
-#   price_class = "PriceClass_100"
-
-#   tags = {
-#     Project = var.project
-#     Name    = "Main Cloudfront Distribution"
-#   }
-# }
+  tags = {
+    Project = var.project
+    Name    = "Media Cloudfront Distribution"
+  }
+}
