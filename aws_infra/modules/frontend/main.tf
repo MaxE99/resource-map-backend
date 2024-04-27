@@ -107,7 +107,7 @@ resource "aws_cloudfront_distribution" "main" {
   viewer_certificate {
     acm_certificate_arn            = var.acm_certificate_arn
     ssl_support_method             = "sni-only"
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
   }
 
   price_class = "PriceClass_100"

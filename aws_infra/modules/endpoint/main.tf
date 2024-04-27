@@ -91,7 +91,6 @@ resource "aws_api_gateway_integration" "main_options" {
   rest_api_id             = var.rest_api_id
   resource_id             = aws_api_gateway_resource.main.id
   http_method             = aws_api_gateway_method.main_options.http_method
-  integration_http_method = "POST"
   type                    = "MOCK"
   request_templates = {
     "application/json" = "{\"statusCode\": 200}"
