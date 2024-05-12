@@ -134,6 +134,7 @@ module "lambda_endpoints" {
   rest_api_id              = aws_api_gateway_rest_api.main.id
   rest_api_root_resource_id = aws_api_gateway_rest_api.main.root_resource_id
   rest_api_execution_arn   = aws_api_gateway_rest_api.main.execution_arn
+  domain                    = var.domain
 }
 
 resource "aws_api_gateway_deployment" "main" {

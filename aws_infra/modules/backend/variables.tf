@@ -2,6 +2,11 @@ variable "project" {
   type = string
 }
 
+
+variable "domain" {
+  type = string
+}
+
 variable "api_domain" {
   type = string
 }

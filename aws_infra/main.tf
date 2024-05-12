@@ -1,6 +1,7 @@
 module "backend" {
   source              = "./modules/backend"
   project             = var.project
+  domain              = var.domain
   api_domain          = var.api_domain
   acm_certificate_arn = module.domain.backend_acm_certificate_arn
   dynamodb_arn        = module.database.dynamodb_arn
