@@ -76,3 +76,13 @@ module "lambda_endpoints" {
   project              = local.project
   tags                 = local.common_tags
 }
+
+module "ci_cd_pipeline" {
+  source = "./modules/ci_cd_pipeline"
+
+  cloudfront_arn      = module.website_bucket.cloudfront_arn
+  github_repository   = "repo:MaxE99/resource-map-frontend:*"
+  project             = local.project 
+  s3_bucket_arn       = module.website_bucket.s3_bucket_arn
+  tags                = local.common_tags
+}
