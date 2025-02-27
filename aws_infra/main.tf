@@ -17,8 +17,8 @@ module "frontend_domain" {
   source = "./modules/domain"
 
   domain  = local.domain
-  tags    = local.common_tags
   zone_id = local.zone_id
+  tags    = local.common_tags
 }
 
 module "backend_domain" {
@@ -27,8 +27,8 @@ module "backend_domain" {
 
   domain                    = "api.${local.domain}"
   enable_api_gateway_domain = true
-  tags                      = local.common_tags
   zone_id                   = local.zone_id
+  tags                      = local.common_tags
 }
 
 module "website_bucket" {
@@ -80,9 +80,9 @@ module "lambda_endpoints" {
 module "ci_cd_pipeline" {
   source = "./modules/ci_cd_pipeline"
 
-  cloudfront_arn      = module.website_bucket.cloudfront_arn
-  github_repository   = "repo:MaxE99/resource-map-frontend:*"
-  project             = local.project 
-  s3_bucket_arn       = module.website_bucket.s3_bucket_arn
-  tags                = local.common_tags
+  cloudfront_arn    = module.website_bucket.cloudfront_arn
+  github_repository = "repo:MaxE99/resource-map-frontend:*"
+  project           = local.project
+  s3_bucket_arn     = module.website_bucket.s3_bucket_arn
+  tags              = local.common_tags
 }
